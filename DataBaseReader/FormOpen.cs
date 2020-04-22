@@ -26,6 +26,7 @@ namespace DataBaseReader
             try
             {
                 FormMain.dataBase.Open();
+                MessageBox.Show("База данных успешно открыта!", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
             catch
             {

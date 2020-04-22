@@ -138,6 +138,7 @@ namespace DataBaseReader
                 {
                     new OleDbCommand(queryList[i], dataBase).ExecuteNonQuery();
                 }
+                MessageBox.Show("Изменено успешно!", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
             catch
             {
@@ -147,39 +148,54 @@ namespace DataBaseReader
 
         private void ButtonInsertDb_Click(object sender, EventArgs e)
         {
-            if (GetTableName(LastQuery, GetAllTableName(dataBase)).Count < 2)
+            try
             {
-                var formAdd = new FormAddDel(false, null)
+                if (GetTableName(LastQuery, GetAllTableName(dataBase)).Count < 2)
                 {
-                    Text = "Выполните ввод"
-                };
-                formAdd.ShowDialog();
+                    var formAdd = new FormAddDel(false, null)
+                    {
+                        Text = "Выполните ввод"
+                    };
+                    formAdd.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Пожалуйста, используйте одну таблицу", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show("Пожалуйста, используйте одну таблицу", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Запрос не введён", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void ButtonDeleteDb_Click(object sender, EventArgs e)
         {
-            if (GetTableName(LastQuery, GetAllTableName(dataBase)).Count < 2)
+            try
             {
-                var rowDel = new List<string>();
-                for (int i = 0; i < DataGridView.ColumnCount; i++)
+                if (GetTableName(LastQuery, GetAllTableName(dataBase)).Count < 2)
                 {
-                    rowDel.Add(DataGridView[i, DataGridView.CurrentRow.Index].Value.ToString());
+                    var rowDel = new List<string>();
+                    for (int i = 0; i < DataGridView.ColumnCount; i++)
+                    {
+                        rowDel.Add(DataGridView[i, DataGridView.CurrentRow.Index].Value.ToString());
+                    }
+                    var formDel = new FormAddDel(true, rowDel)
+                    {
+                        Text = "Подтвердите удаление!"
+                    };
+                    formDel.ShowDialog();
                 }
-                var formDel = new FormAddDel(true, rowDel)
+                else
                 {
-                    Text = "Подтвердите удаление!"
-                };
-                formDel.ShowDialog();
+                    MessageBox.Show("Пожалуйста, используйте одну таблицу", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show("Пожалуйста, используйте одну таблицу", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Запрос не введён", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
         private void ButtonRefresh_Click(object sender, EventArgs e)
@@ -411,7 +427,6 @@ namespace DataBaseReader
             stringBuild.Append(" = ");
             stringBuild.Append(where2);
             stringBuild.Append(";");
-            MessageBox.Show(stringBuild.ToString());
             return stringBuild.ToString();
         }
     }
