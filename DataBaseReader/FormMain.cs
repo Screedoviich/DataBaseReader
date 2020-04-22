@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml;
@@ -24,7 +20,7 @@ namespace DataBaseReader
         //Количество столбцов в полученном запросе
         private static int ColumnCount { get; set; }
         //Последний выполненный запрос
-        private static int lastQuery { get; set; }
+        private static string lastQuery { get; set; }
         public FormMain()
         {
             InitializeComponent();
@@ -70,8 +66,7 @@ namespace DataBaseReader
                 {
                     CreateDataBaseInfo(query[Convert.ToInt32(TextBoxQueryNumber.Text) - 1], dataBase);
                     InputDataBase(query[Convert.ToInt32(TextBoxQueryNumber.Text) - 1], dataBase);
-                    lastQuery = Convert.ToInt32(TextBoxQueryNumber.Text);
-                    lastQuery--;
+                    lastQuery = query[Convert.ToInt32(TextBoxQueryNumber.Text)];
                 }
             }
             catch
@@ -195,6 +190,7 @@ namespace DataBaseReader
                         DataGridView.Rows.Clear();
                         CreateDataBaseInfo(RichTextBoxFastQuery.Text, dataBase);
                         InputDataBase(RichTextBoxFastQuery.Text, dataBase);
+                        lastQuery = RichTextBoxFastQuery.Text;
                     }
                     else
                     {
@@ -259,6 +255,7 @@ namespace DataBaseReader
             }
             else
             {
+                MessageBox.Show("При изменении данных используйте в запросе ТОЛЬКО ОДНУ таблицу!", "Внимание!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 DataGridView.ReadOnly = false;
             }
         }
@@ -266,11 +263,6 @@ namespace DataBaseReader
         private void ButtonInsertDb_Click(object sender, EventArgs e)
         {
             DataGridView.Rows.Add();
-        }
-
-        private void ButtonRefreshDb_Click(object sender, EventArgs e)
-        {
-            DataGridView.Refresh();
         }
 
         /// <summary>
@@ -289,66 +281,113 @@ namespace DataBaseReader
             return names;
         }
         /// <summary>
-        /// Позволяет получить строку таблиц, которые используются в запросе.
+        /// Позволяет получить список таблиц, которые используются в запросе.
         /// </summary>
         /// <param name="query">Запрос.</param>
-        /// <param name="tableNames">Список всех таблиц.</param>
+        /// <param name="allTableName">Список всех таблиц.</param>
         /// <returns></returns>
-        public string GetTableName(string query, List<string> tableNames)
+        List<string> GetTableName(string query, List<string> allTableName)
         {
-            StringBuilder strBuild = new StringBuilder();
-            for (int i = 0; i < tableNames.Count; i++)
+            var tableName = new List<string>();
+            for (int i = 0; i < allTableName.Count; i++)
             {
-                if (query.Contains(tableNames[i]))
+                if (query.Contains(allTableName[i]))
                 {
-                    strBuild.Append(tableNames[i]);
-                    strBuild.Append(", ");
+                    tableName.Add(allTableName[i]);
                 }
             }
-            strBuild.Remove(strBuild.Length - 2, 1);
-            return strBuild.ToString();
+            return tableName;
         }
-        List<string> CreateInsertQuery(string query, OleDbConnection connection)
+        /// <summary>
+        /// Создание листа с запросами для изменения значений в базе данных.
+        /// </summary>
+        /// <param name="query">Запрос, из которого будет взята таблица.</param>
+        /// <param name="connection">Подключение к базе данных.</param>
+        /// <returns>Список запросов.</returns>
+        List<string> GetUpdateQuery(string query, OleDbConnection connection)
         {
-            var command = new OleDbCommand(query, connection);
-            var reader = command.ExecuteReader();
-            OleDbDataAdapter adapter = new OleDbDataAdapter(query, connection);
-            var dataTable = new DataTable();
-            adapter.Fill(dataTable);
-            var insertQuery = new List<string>();
-            for (int i = 0; i < DataGridView.RowCount; i++)
+            var queryList = GetTableName(query, GetAllTableName(dataBase));
+            if (queryList.Count < 2)
             {
-                reader.Read();
-                for (int j = 0; j < dataTable.Columns.Count; j++)
+                //Хранимые данные запроса
+                var command = new OleDbCommand(query, connection);
+                //Переменная для чтения значений из текущего запроса
+                var reader = command.ExecuteReader();
+                //Заполнение DataGridView 
+                var adapter = new OleDbDataAdapter(query, connection);
+                var dataTable = new DataTable();
+                adapter.Fill(dataTable);
+                //Список с запросами для изменения
+                var updateQuery = new List<string>();
+                for (int i = 0; i < DataGridView.RowCount; i++)
                 {
-                    if (DataGridView[j, i].Value.ToString() != reader[j].ToString())
+                    reader.Read();
+                    for (int j = 0; j < dataTable.Columns.Count; j++)
                     {
-                        StringBuilder stringBuild = new StringBuilder();
-                        stringBuild.Append("UPDATE ");
-                        stringBuild.Append(GetTableName(query, GetAllTableName(dataBase)));
-                        stringBuild.Append("SET ");
-                        stringBuild.Append(DataGridView.Columns[j].Name);
-                        stringBuild.Append(" = \"");
-                        stringBuild.Append(DataGridView[j, i].Value.ToString());
-                        stringBuild.Append("\" WHERE ");
-                        stringBuild.Append(DataGridView.Columns[0].Name);
-                        stringBuild.Append(" = ");
-                        stringBuild.Append(reader[0].ToString());
-                        stringBuild.Append(";");
-                        insertQuery.Add(stringBuild.ToString());
+                        //Создавать запрос только при условии изменения значения
+                        if (DataGridView[j, i].Value.ToString() != reader[j].ToString())
+                        {
+                            updateQuery.Add(CreateUpdateQuery(queryList[0], DataGridView.Columns[j].Name, DataGridView[j, i].Value.ToString(), DataGridView.Columns[0].Name, reader[0].ToString()));
+                        }
                     }
                 }
+                return updateQuery;
             }
-            return insertQuery;
+            else
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// Создаёт запрос на добавление данных с указанными параметрами.
+        /// </summary>
+        /// <param name="table">Таблица, в которой необходимо выполнить изменение</param>
+        /// <param name="columnName">Название столбца.</param>
+        /// <param name="value">Значение.</param>
+        /// <param name="where1">Первое условие.</param>
+        /// <param name="where2">Второе условие.</param>
+        /// <returns></returns>
+        string CreateUpdateQuery(string table, string columnName, string value, string where1, string where2)
+        {
+            StringBuilder stringBuild = new StringBuilder();
+            stringBuild.Append("UPDATE ");
+            stringBuild.Append(table);
+            stringBuild.Append(" SET ");
+            stringBuild.Append(columnName);
+            stringBuild.Append(" = \"");
+            stringBuild.Append(value);
+            stringBuild.Append("\" WHERE ");
+            stringBuild.Append(where1);
+            stringBuild.Append(" = ");
+            stringBuild.Append(where2);
+            stringBuild.Append(";");
+            return stringBuild.ToString();
         }
 
         private void ButtonUpdateDb_Click(object sender, EventArgs e)
         {
-            var queryList = CreateInsertQuery(query[lastQuery], dataBase);
-            for (int i = 0; i < queryList.Count; i++)
+            try
             {
-                new OleDbCommand(queryList[i], dataBase).ExecuteNonQuery();
+                var queryList = GetUpdateQuery(lastQuery, dataBase);
+                for (int i = 0; i < queryList.Count; i++)
+                {
+                    new OleDbCommand(queryList[i], dataBase).ExecuteNonQuery();
+                }
             }
+            catch
+            {
+                MessageBox.Show("Изменение невозможно!\nПожалуйста проверьте введённые данные и используйте в запросе только одну таблицу.", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void ButtonDeleteDb_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ButtonSaveDb_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -49,7 +49,7 @@
             this.ButtonInsertDb = new System.Windows.Forms.Button();
             this.ButtonUpdateDb = new System.Windows.Forms.Button();
             this.ButtonDeleteDb = new System.Windows.Forms.Button();
-            this.ButtonRefreshDb = new System.Windows.Forms.Button();
+            this.ButtonSaveDb = new System.Windows.Forms.Button();
             this.GroupBoxEdit = new System.Windows.Forms.GroupBox();
             this.GroupBoxCreateDelete = new System.Windows.Forms.GroupBox();
             this.MenuStrip.SuspendLayout();
@@ -231,7 +231,7 @@
             // CheckBoxAllowEdit
             // 
             this.CheckBoxAllowEdit.AutoSize = true;
-            this.CheckBoxAllowEdit.Location = new System.Drawing.Point(16, 16);
+            this.CheckBoxAllowEdit.Location = new System.Drawing.Point(16, 20);
             this.CheckBoxAllowEdit.Name = "CheckBoxAllowEdit";
             this.CheckBoxAllowEdit.Size = new System.Drawing.Size(168, 17);
             this.CheckBoxAllowEdit.TabIndex = 6;
@@ -267,16 +267,17 @@
             this.ButtonDeleteDb.TabIndex = 7;
             this.ButtonDeleteDb.Text = "Удалить";
             this.ButtonDeleteDb.UseVisualStyleBackColor = true;
+            this.ButtonDeleteDb.Click += new System.EventHandler(this.ButtonDeleteDb_Click);
             // 
-            // ButtonRefreshDb
+            // ButtonSaveDb
             // 
-            this.ButtonRefreshDb.Location = new System.Drawing.Point(184, 16);
-            this.ButtonRefreshDb.Name = "ButtonRefreshDb";
-            this.ButtonRefreshDb.Size = new System.Drawing.Size(75, 23);
-            this.ButtonRefreshDb.TabIndex = 7;
-            this.ButtonRefreshDb.Text = "Сохранить";
-            this.ButtonRefreshDb.UseVisualStyleBackColor = true;
-            this.ButtonRefreshDb.Click += new System.EventHandler(this.ButtonRefreshDb_Click);
+            this.ButtonSaveDb.Location = new System.Drawing.Point(184, 16);
+            this.ButtonSaveDb.Name = "ButtonSaveDb";
+            this.ButtonSaveDb.Size = new System.Drawing.Size(75, 23);
+            this.ButtonSaveDb.TabIndex = 7;
+            this.ButtonSaveDb.Text = "Сохранить";
+            this.ButtonSaveDb.UseVisualStyleBackColor = true;
+            this.ButtonSaveDb.Click += new System.EventHandler(this.ButtonSaveDb_Click);
             // 
             // GroupBoxEdit
             // 
@@ -293,7 +294,7 @@
             // 
             this.GroupBoxCreateDelete.Controls.Add(this.ButtonInsertDb);
             this.GroupBoxCreateDelete.Controls.Add(this.ButtonDeleteDb);
-            this.GroupBoxCreateDelete.Controls.Add(this.ButtonRefreshDb);
+            this.GroupBoxCreateDelete.Controls.Add(this.ButtonSaveDb);
             this.GroupBoxCreateDelete.Location = new System.Drawing.Point(552, 32);
             this.GroupBoxCreateDelete.Name = "GroupBoxCreateDelete";
             this.GroupBoxCreateDelete.Size = new System.Drawing.Size(272, 48);
@@ -356,7 +357,7 @@
         private System.Windows.Forms.Button ButtonInsertDb;
         private System.Windows.Forms.Button ButtonUpdateDb;
         private System.Windows.Forms.Button ButtonDeleteDb;
-        private System.Windows.Forms.Button ButtonRefreshDb;
+        private System.Windows.Forms.Button ButtonSaveDb;
         private System.Windows.Forms.GroupBox GroupBoxEdit;
         private System.Windows.Forms.GroupBox GroupBoxCreateDelete;
     }
