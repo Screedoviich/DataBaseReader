@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.OleDb;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DataBaseReader
@@ -20,7 +13,7 @@ namespace DataBaseReader
 
         private void FormOpen_Load(object sender, EventArgs e)
         {
-            TextBoxPath.Text = FormMain.dataBasePath;
+            TextBoxPath.Text = FormMain.DataBasePath;
         }
 
         private void ButtonInput_Click(object sender, EventArgs e)
@@ -43,7 +36,7 @@ namespace DataBaseReader
         private void ButtonPath_Click(object sender, EventArgs e)
         {
             OpenFileDialog.ShowDialog();
-            FormMain.dataBasePath = TextBoxPath.Text = OpenFileDialog.FileName;
+            FormMain.DataBasePath = TextBoxPath.Text = OpenFileDialog.FileName;
         }
     }
 }

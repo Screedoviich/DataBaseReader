@@ -203,6 +203,7 @@
             this.DataGridView.Location = new System.Drawing.Point(256, 85);
             this.DataGridView.Name = "DataGridView";
             this.DataGridView.ReadOnly = true;
+            this.DataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.DataGridView.Size = new System.Drawing.Size(568, 220);
             this.DataGridView.TabIndex = 3;
             // 
@@ -315,7 +316,7 @@
             this.Controls.Add(this.GroupBoxDataBase);
             this.Controls.Add(this.MenuStrip);
             this.MainMenuStrip = this.MenuStrip;
-            this.MinimumSize = new System.Drawing.Size(563, 350);
+            this.MinimumSize = new System.Drawing.Size(850, 400);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Работа с БД";
