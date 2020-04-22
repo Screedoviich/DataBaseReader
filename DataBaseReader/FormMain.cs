@@ -270,10 +270,8 @@ namespace DataBaseReader
 
         private void ButtonRefreshDb_Click(object sender, EventArgs e)
         {
-            
+            DataGridView.Refresh();
         }
-        //D:\Clouds\YandexDisk\Study\ISTU\Б04-780-3\Программирование баз данных\Курсовая\БД\Спортивный клуб\Спортивный клуб.mdb
-        //"UPDATE <таблица> SET <столбец> = <значение> WHERE <условие>;"
 
         /// <summary>
         /// Позволяет получить список всех таблиц из базы данных.
