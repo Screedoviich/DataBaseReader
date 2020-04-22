@@ -61,6 +61,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormAddDel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddDel.Designer.cs">
+      <DependentUpon>FormAddDel.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormEditQuery.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +87,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormAddDel.resx">
+      <DependentUpon>FormAddDel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormEditQuery.resx">
       <DependentUpon>FormEditQuery.cs</DependentUpon>
     </EmbeddedResource>

@@ -118,7 +118,6 @@ namespace DataBaseReader
 
         private void CheckBoxAllowEdit_CheckedChanged(object sender, EventArgs e)
         {
-
             if (CheckBoxAllowEdit.Checked == false)
             {
                 DataGridView.ReadOnly = true;
@@ -132,7 +131,6 @@ namespace DataBaseReader
 
         private void ButtonUpdateDb_Click(object sender, EventArgs e)
         {
-
             try
             {
                 var queryList = GetUpdateQuery(LastQuery, dataBase);
@@ -149,21 +147,39 @@ namespace DataBaseReader
 
         private void ButtonInsertDb_Click(object sender, EventArgs e)
         {
-            //DataGridView.Rows.Add(new[] { "", "object", "object" });
-            //new OleDbCommand("INSERT INTO City (Code, Name, CompanyCount) VALUES (10, NULL, NULL);", dataBase).ExecuteNonQuery();
+            if (GetTableName(LastQuery, GetAllTableName(dataBase)).Count < 2)
+            {
+                var formAdd = new FormAddDel(false, null)
+                {
+                    Text = "Выполните ввод"
+                };
+                formAdd.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Пожалуйста, используйте одну таблицу", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ButtonDeleteDb_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in DataGridView.SelectedRows)
+            if (GetTableName(LastQuery, GetAllTableName(dataBase)).Count < 2)
             {
-                DataGridView.Rows.Remove(row);
+                var rowDel = new List<string>();
+                for (int i = 0; i < DataGridView.ColumnCount; i++)
+                {
+                    rowDel.Add(DataGridView[i, DataGridView.CurrentRow.Index].Value.ToString());
+                }
+                var formDel = new FormAddDel(true, rowDel)
+                {
+                    Text = "Подтвердите удаление!"
+                };
+                formDel.ShowDialog();
             }
-        }
-
-        private void ButtonSaveDb_Click(object sender, EventArgs e)
-        {
-
+            else
+            {
+                MessageBox.Show("Пожалуйста, используйте одну таблицу", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void ButtonRefresh_Click(object sender, EventArgs e)
@@ -318,7 +334,7 @@ namespace DataBaseReader
         /// <param name="query">Запрос.</param>
         /// <param name="allTableName">Список всех таблиц.</param>
         /// <returns>Список таблиц запроса.</returns>
-        List<string> GetTableName(string query, List<string> allTableName)
+        public List<string> GetTableName(string query, List<string> allTableName)
         {
             var tableName = new List<string>();
             for (int i = 0; i < allTableName.Count; i++)
@@ -357,7 +373,7 @@ namespace DataBaseReader
                     reader.Read();
                     for (int j = 0; j < dataTable.Columns.Count; j++)
                     {
-                        //Создавать запрос только при условии изменения значения
+                        //Создавать запрос только при условии изменения значения в ячейке
                         if (DataGridView[j, i].Value.ToString() != reader[j].ToString())
                         {
                             updateQuery.Add(CreateUpdateQuery(queryList[0], DataGridView.Columns[j].Name, DataGridView[j, i].Value.ToString(), DataGridView.Columns[0].Name, reader[0].ToString()));

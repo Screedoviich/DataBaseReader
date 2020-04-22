@@ -49,7 +49,6 @@
             this.ButtonInsertDb = new System.Windows.Forms.Button();
             this.ButtonUpdateDb = new System.Windows.Forms.Button();
             this.ButtonDeleteDb = new System.Windows.Forms.Button();
-            this.ButtonSaveDb = new System.Windows.Forms.Button();
             this.GroupBoxEdit = new System.Windows.Forms.GroupBox();
             this.GroupBoxCreateDelete = new System.Windows.Forms.GroupBox();
             this.MenuStrip.SuspendLayout();
@@ -111,7 +110,7 @@
             this.MenuStripFile});
             this.MenuStrip.Location = new System.Drawing.Point(0, 0);
             this.MenuStrip.Name = "MenuStrip";
-            this.MenuStrip.Size = new System.Drawing.Size(834, 24);
+            this.MenuStrip.Size = new System.Drawing.Size(744, 24);
             this.MenuStrip.TabIndex = 0;
             this.MenuStrip.Text = "menuStrip1";
             // 
@@ -204,7 +203,7 @@
             this.DataGridView.Name = "DataGridView";
             this.DataGridView.ReadOnly = true;
             this.DataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DataGridView.Size = new System.Drawing.Size(568, 220);
+            this.DataGridView.Size = new System.Drawing.Size(474, 220);
             this.DataGridView.TabIndex = 3;
             // 
             // ButtonRefresh
@@ -270,16 +269,6 @@
             this.ButtonDeleteDb.UseVisualStyleBackColor = true;
             this.ButtonDeleteDb.Click += new System.EventHandler(this.ButtonDeleteDb_Click);
             // 
-            // ButtonSaveDb
-            // 
-            this.ButtonSaveDb.Location = new System.Drawing.Point(184, 16);
-            this.ButtonSaveDb.Name = "ButtonSaveDb";
-            this.ButtonSaveDb.Size = new System.Drawing.Size(75, 23);
-            this.ButtonSaveDb.TabIndex = 7;
-            this.ButtonSaveDb.Text = "Сохранить";
-            this.ButtonSaveDb.UseVisualStyleBackColor = true;
-            this.ButtonSaveDb.Click += new System.EventHandler(this.ButtonSaveDb_Click);
-            // 
             // GroupBoxEdit
             // 
             this.GroupBoxEdit.Controls.Add(this.CheckBoxAllowEdit);
@@ -295,10 +284,9 @@
             // 
             this.GroupBoxCreateDelete.Controls.Add(this.ButtonInsertDb);
             this.GroupBoxCreateDelete.Controls.Add(this.ButtonDeleteDb);
-            this.GroupBoxCreateDelete.Controls.Add(this.ButtonSaveDb);
             this.GroupBoxCreateDelete.Location = new System.Drawing.Point(552, 32);
             this.GroupBoxCreateDelete.Name = "GroupBoxCreateDelete";
-            this.GroupBoxCreateDelete.Size = new System.Drawing.Size(272, 48);
+            this.GroupBoxCreateDelete.Size = new System.Drawing.Size(178, 48);
             this.GroupBoxCreateDelete.TabIndex = 9;
             this.GroupBoxCreateDelete.TabStop = false;
             this.GroupBoxCreateDelete.Text = "Прямое управление данными";
@@ -307,7 +295,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(834, 365);
+            this.ClientSize = new System.Drawing.Size(744, 365);
             this.Controls.Add(this.GroupBoxCreateDelete);
             this.Controls.Add(this.GroupBoxEdit);
             this.Controls.Add(this.ButtonClear);
@@ -316,7 +304,7 @@
             this.Controls.Add(this.GroupBoxDataBase);
             this.Controls.Add(this.MenuStrip);
             this.MainMenuStrip = this.MenuStrip;
-            this.MinimumSize = new System.Drawing.Size(850, 400);
+            this.MinimumSize = new System.Drawing.Size(760, 400);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Работа с БД";
@@ -340,7 +328,6 @@
         private System.Windows.Forms.ToolStripMenuItem MenuStripFile;
         private System.Windows.Forms.MenuStrip MenuStrip;
         private System.Windows.Forms.GroupBox GroupBoxDataBase;
-        private System.Windows.Forms.DataGridView DataGridView;
         private System.Windows.Forms.Button ButtonRefresh;
         private System.Windows.Forms.ToolStripMenuItem MenuStripEditQuery;
         private System.Windows.Forms.Button ButtonClear;
@@ -358,9 +345,9 @@
         private System.Windows.Forms.Button ButtonInsertDb;
         private System.Windows.Forms.Button ButtonUpdateDb;
         private System.Windows.Forms.Button ButtonDeleteDb;
-        private System.Windows.Forms.Button ButtonSaveDb;
         private System.Windows.Forms.GroupBox GroupBoxEdit;
         private System.Windows.Forms.GroupBox GroupBoxCreateDelete;
+        public System.Windows.Forms.DataGridView DataGridView;
     }
 }
 
