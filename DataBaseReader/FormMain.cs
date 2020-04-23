@@ -208,7 +208,7 @@ namespace DataBaseReader
             DataGridView.Rows.Clear();
         }
 
-        private void MenuStripDataBase_Click(object sender, EventArgs e)
+        private void MenuStripDataBase_Click_1(object sender, EventArgs e)
         {
             new FormOpen().ShowDialog();
         }
@@ -428,6 +428,16 @@ namespace DataBaseReader
             stringBuild.Append(where2);
             stringBuild.Append(";");
             return stringBuild.ToString();
+        }
+
+        private void MenuStripAboutProgram_Click(object sender, EventArgs e)
+        {
+            new FormAboutProgram().Show();
+        }
+
+        private void MenuStripDescription_Click(object sender, EventArgs e)
+        {
+            new FormDescription().Show();
         }
     }
 }

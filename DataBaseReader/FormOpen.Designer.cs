@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormOpen));
             this.TextBoxPath = new System.Windows.Forms.TextBox();
             this.ButtonInput = new System.Windows.Forms.Button();
             this.OpenFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -94,11 +95,12 @@
             this.ClientSize = new System.Drawing.Size(834, 65);
             this.Controls.Add(this.GroupBoxInput);
             this.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximumSize = new System.Drawing.Size(11664, 100);
             this.MinimumSize = new System.Drawing.Size(500, 100);
             this.Name = "FormOpen";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "FormOpen";
+            this.Text = "Выбор базы данных";
             this.Load += new System.EventHandler(this.FormOpen_Load);
             this.GroupBoxInput.ResumeLayout(false);
             this.GroupBoxInput.PerformLayout();

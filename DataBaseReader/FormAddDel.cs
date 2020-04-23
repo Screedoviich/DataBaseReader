@@ -44,11 +44,13 @@ namespace DataBaseReader
                 {
                     new OleDbCommand(CreateInsertQuery(FormMain.LastQuery, FormMain.dataBase), FormMain.dataBase).ExecuteNonQuery();
                     MessageBox.Show("Добавлено успешно!", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    Close();
                 }
                 else
                 {
                     new OleDbCommand(CreateDeleteQuery(FormMain.LastQuery, FormMain.dataBase), FormMain.dataBase).ExecuteNonQuery();
                     MessageBox.Show("Удалено успешно!", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                    Close();
                 }
             }
             catch

@@ -59,5 +59,15 @@ namespace DataBaseReader.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap DataBaseReaderIcon {
+            get {
+                object obj = ResourceManager.GetObject("DataBaseReaderIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

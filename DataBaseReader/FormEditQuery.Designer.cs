@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEditQuery));
             this.RichTextBoxQuery = new System.Windows.Forms.RichTextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.LabelQueryNumber = new System.Windows.Forms.Label();
@@ -49,9 +50,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RichTextBoxQuery.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.RichTextBoxQuery.Location = new System.Drawing.Point(264, 40);
+            this.RichTextBoxQuery.Location = new System.Drawing.Point(308, 40);
             this.RichTextBoxQuery.Name = "RichTextBoxQuery";
-            this.RichTextBoxQuery.Size = new System.Drawing.Size(300, 160);
+            this.RichTextBoxQuery.Size = new System.Drawing.Size(349, 160);
             this.RichTextBoxQuery.TabIndex = 6;
             this.RichTextBoxQuery.Text = "";
             this.RichTextBoxQuery.WordWrap = false;
@@ -65,9 +66,9 @@
             this.groupBox1.Controls.Add(this.ButtomQueryList);
             this.groupBox1.Controls.Add(this.ButtomQueryAdd);
             this.groupBox1.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.groupBox1.Location = new System.Drawing.Point(16, 16);
+            this.groupBox1.Location = new System.Drawing.Point(19, 16);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(232, 240);
+            this.groupBox1.Size = new System.Drawing.Size(271, 240);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Управление запросами";
@@ -76,7 +77,7 @@
             // 
             this.LabelQueryNumber.AutoSize = true;
             this.LabelQueryNumber.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.LabelQueryNumber.Location = new System.Drawing.Point(16, 120);
+            this.LabelQueryNumber.Location = new System.Drawing.Point(19, 120);
             this.LabelQueryNumber.Name = "LabelQueryNumber";
             this.LabelQueryNumber.Size = new System.Drawing.Size(116, 16);
             this.LabelQueryNumber.TabIndex = 10;
@@ -84,18 +85,18 @@
             // 
             // TextBoxQueryNumber
             // 
-            this.TextBoxQueryNumber.Location = new System.Drawing.Point(136, 117);
+            this.TextBoxQueryNumber.Location = new System.Drawing.Point(159, 117);
             this.TextBoxQueryNumber.MaxLength = 9;
             this.TextBoxQueryNumber.Name = "TextBoxQueryNumber";
-            this.TextBoxQueryNumber.Size = new System.Drawing.Size(80, 21);
+            this.TextBoxQueryNumber.Size = new System.Drawing.Size(93, 21);
             this.TextBoxQueryNumber.TabIndex = 3;
             this.TextBoxQueryNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TextBoxQueryNumber_KeyPress);
             // 
             // ButtomQueryEdit
             // 
-            this.ButtomQueryEdit.Location = new System.Drawing.Point(16, 144);
+            this.ButtomQueryEdit.Location = new System.Drawing.Point(19, 144);
             this.ButtomQueryEdit.Name = "ButtomQueryEdit";
-            this.ButtomQueryEdit.Size = new System.Drawing.Size(200, 40);
+            this.ButtomQueryEdit.Size = new System.Drawing.Size(233, 40);
             this.ButtomQueryEdit.TabIndex = 4;
             this.ButtomQueryEdit.Text = "Редактировать";
             this.ButtomQueryEdit.UseVisualStyleBackColor = true;
@@ -103,9 +104,9 @@
             // 
             // ButtomQueryListNow
             // 
-            this.ButtomQueryListNow.Location = new System.Drawing.Point(16, 192);
+            this.ButtomQueryListNow.Location = new System.Drawing.Point(19, 192);
             this.ButtomQueryListNow.Name = "ButtomQueryListNow";
-            this.ButtomQueryListNow.Size = new System.Drawing.Size(200, 40);
+            this.ButtomQueryListNow.Size = new System.Drawing.Size(233, 40);
             this.ButtomQueryListNow.TabIndex = 5;
             this.ButtomQueryListNow.Text = "Показать текущий";
             this.ButtomQueryListNow.UseVisualStyleBackColor = true;
@@ -113,9 +114,9 @@
             // 
             // ButtomQueryList
             // 
-            this.ButtomQueryList.Location = new System.Drawing.Point(16, 72);
+            this.ButtomQueryList.Location = new System.Drawing.Point(19, 72);
             this.ButtomQueryList.Name = "ButtomQueryList";
-            this.ButtomQueryList.Size = new System.Drawing.Size(200, 40);
+            this.ButtomQueryList.Size = new System.Drawing.Size(233, 40);
             this.ButtomQueryList.TabIndex = 2;
             this.ButtomQueryList.Text = "Полный список";
             this.ButtomQueryList.UseVisualStyleBackColor = true;
@@ -123,9 +124,9 @@
             // 
             // ButtomQueryAdd
             // 
-            this.ButtomQueryAdd.Location = new System.Drawing.Point(16, 24);
+            this.ButtomQueryAdd.Location = new System.Drawing.Point(19, 24);
             this.ButtomQueryAdd.Name = "ButtomQueryAdd";
-            this.ButtomQueryAdd.Size = new System.Drawing.Size(200, 40);
+            this.ButtomQueryAdd.Size = new System.Drawing.Size(233, 40);
             this.ButtomQueryAdd.TabIndex = 0;
             this.ButtomQueryAdd.Text = "Добавить";
             this.ButtomQueryAdd.UseVisualStyleBackColor = true;
@@ -135,7 +136,7 @@
             // 
             this.LabelEditQuery.AutoSize = true;
             this.LabelEditQuery.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.LabelEditQuery.Location = new System.Drawing.Point(264, 16);
+            this.LabelEditQuery.Location = new System.Drawing.Point(308, 16);
             this.LabelEditQuery.Name = "LabelEditQuery";
             this.LabelEditQuery.Size = new System.Drawing.Size(163, 18);
             this.LabelEditQuery.TabIndex = 11;
@@ -145,9 +146,9 @@
             // 
             this.ButtomQueryClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ButtomQueryClear.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ButtomQueryClear.Location = new System.Drawing.Point(264, 208);
+            this.ButtomQueryClear.Location = new System.Drawing.Point(308, 208);
             this.ButtomQueryClear.Name = "ButtomQueryClear";
-            this.ButtomQueryClear.Size = new System.Drawing.Size(144, 40);
+            this.ButtomQueryClear.Size = new System.Drawing.Size(168, 40);
             this.ButtomQueryClear.TabIndex = 7;
             this.ButtomQueryClear.Text = "Очистить";
             this.ButtomQueryClear.UseVisualStyleBackColor = true;
@@ -164,9 +165,9 @@
             "Добавить",
             "Изменить",
             "Удалить"});
-            this.ComboBoxTemplate.Location = new System.Drawing.Point(416, 224);
+            this.ComboBoxTemplate.Location = new System.Drawing.Point(485, 224);
             this.ComboBoxTemplate.Name = "ComboBoxTemplate";
-            this.ComboBoxTemplate.Size = new System.Drawing.Size(144, 21);
+            this.ComboBoxTemplate.Size = new System.Drawing.Size(167, 21);
             this.ComboBoxTemplate.TabIndex = 8;
             this.ComboBoxTemplate.SelectedIndexChanged += new System.EventHandler(this.ComboBoxTemplate_SelectedIndexChanged);
             // 
@@ -175,7 +176,7 @@
             this.LabelTemplate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LabelTemplate.AutoSize = true;
             this.LabelTemplate.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.LabelTemplate.Location = new System.Drawing.Point(416, 208);
+            this.LabelTemplate.Location = new System.Drawing.Point(485, 208);
             this.LabelTemplate.Name = "LabelTemplate";
             this.LabelTemplate.Size = new System.Drawing.Size(117, 13);
             this.LabelTemplate.TabIndex = 13;
@@ -183,16 +184,18 @@
             // 
             // FormEditQuery
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 265);
+            this.ClientSize = new System.Drawing.Size(681, 265);
             this.Controls.Add(this.LabelTemplate);
             this.Controls.Add(this.ComboBoxTemplate);
             this.Controls.Add(this.ButtomQueryClear);
             this.Controls.Add(this.LabelEditQuery);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.RichTextBoxQuery);
-            this.MinimumSize = new System.Drawing.Size(600, 300);
+            this.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(697, 300);
             this.Name = "FormEditQuery";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Редактор запросов";

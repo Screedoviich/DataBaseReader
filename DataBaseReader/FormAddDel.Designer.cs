@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAddDel));
             this.DataGridViewEdit = new System.Windows.Forms.DataGridView();
             this.ButtonPerform = new System.Windows.Forms.Button();
             this.ButtonCancel = new System.Windows.Forms.Button();
@@ -43,20 +44,20 @@
             this.DataGridViewEdit.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DataGridViewEdit.BackgroundColor = System.Drawing.SystemColors.ButtonFace;
             this.DataGridViewEdit.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DataGridViewEdit.Location = new System.Drawing.Point(20, 20);
-            this.DataGridViewEdit.MinimumSize = new System.Drawing.Size(400, 44);
+            this.DataGridViewEdit.Location = new System.Drawing.Point(23, 20);
+            this.DataGridViewEdit.MinimumSize = new System.Drawing.Size(467, 44);
             this.DataGridViewEdit.Name = "DataGridViewEdit";
             this.DataGridViewEdit.ReadOnly = true;
             this.DataGridViewEdit.RowHeadersVisible = false;
-            this.DataGridViewEdit.Size = new System.Drawing.Size(400, 44);
+            this.DataGridViewEdit.Size = new System.Drawing.Size(467, 44);
             this.DataGridViewEdit.TabIndex = 0;
             // 
             // ButtonPerform
             // 
             this.ButtonPerform.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.ButtonPerform.Location = new System.Drawing.Point(60, 80);
+            this.ButtonPerform.Location = new System.Drawing.Point(70, 80);
             this.ButtonPerform.Name = "ButtonPerform";
-            this.ButtonPerform.Size = new System.Drawing.Size(120, 40);
+            this.ButtonPerform.Size = new System.Drawing.Size(140, 40);
             this.ButtonPerform.TabIndex = 1;
             this.ButtonPerform.Text = "Выполнить";
             this.ButtonPerform.UseVisualStyleBackColor = true;
@@ -65,9 +66,9 @@
             // ButtonCancel
             // 
             this.ButtonCancel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.ButtonCancel.Location = new System.Drawing.Point(260, 80);
+            this.ButtonCancel.Location = new System.Drawing.Point(303, 80);
             this.ButtonCancel.Name = "ButtonCancel";
-            this.ButtonCancel.Size = new System.Drawing.Size(120, 40);
+            this.ButtonCancel.Size = new System.Drawing.Size(140, 40);
             this.ButtonCancel.TabIndex = 2;
             this.ButtonCancel.Text = "Отмена";
             this.ButtonCancel.UseVisualStyleBackColor = true;
@@ -75,14 +76,16 @@
             // 
             // FormAddDel
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(440, 135);
+            this.ClientSize = new System.Drawing.Size(513, 135);
             this.Controls.Add(this.ButtonCancel);
             this.Controls.Add(this.ButtonPerform);
             this.Controls.Add(this.DataGridViewEdit);
-            this.MaximumSize = new System.Drawing.Size(20000, 170);
-            this.MinimumSize = new System.Drawing.Size(456, 170);
+            this.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(23331, 170);
+            this.MinimumSize = new System.Drawing.Size(529, 170);
             this.Name = "FormAddDel";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "FormAddDel";
