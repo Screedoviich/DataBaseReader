@@ -14,7 +14,7 @@ namespace DataBaseReader
         {
             if(RichTextBoxQuery.Text != string.Empty)
             {
-                FormMain.Query.Add(RichTextBoxQuery.Text);
+                FormMain.QueryList.Add(RichTextBoxQuery.Text);
             }
             else
             {
@@ -26,9 +26,9 @@ namespace DataBaseReader
         {
             if (RichTextBoxQuery.Text != string.Empty)
             {
-                if (FormMain.CheckerNumberQuery(TextBoxQueryNumber.Text, FormMain.Query.Count))
+                if (FormMain.CheckerNumberQuery(TextBoxQueryNumber.Text, FormMain.QueryList.Count))
                 {
-                    FormMain.Query[Convert.ToInt32(TextBoxQueryNumber.Text) - 1] = RichTextBoxQuery.Text;
+                    FormMain.QueryList[Convert.ToInt32(TextBoxQueryNumber.Text) - 1] = RichTextBoxQuery.Text;
                 }
             }
             else
@@ -40,10 +40,10 @@ namespace DataBaseReader
         private void ButtomQueryList_Click(object sender, EventArgs e)
         {
             RichTextBoxQuery.Clear();
-            for (int i = 1; i <= FormMain.Query.Count; i++)
+            for (int i = 1; i <= FormMain.QueryList.Count; i++)
             {
                 RichTextBoxQuery.Text += "Запрос " + i + ".\n\n";
-                RichTextBoxQuery.Text += FormMain.Query[i - 1];
+                RichTextBoxQuery.Text += FormMain.QueryList[i - 1];
                 RichTextBoxQuery.Text += "\n\n";
             }
         }
@@ -55,10 +55,10 @@ namespace DataBaseReader
 
         private void ButtomQueryListNow_Click(object sender, EventArgs e)
         {
-            if (FormMain.CheckerNumberQuery(TextBoxQueryNumber.Text, FormMain.Query.Count))
+            if (FormMain.CheckerNumberQuery(TextBoxQueryNumber.Text, FormMain.QueryList.Count))
             {
                 RichTextBoxQuery.Text = "Запрос " + TextBoxQueryNumber.Text + ".\n\n";
-                RichTextBoxQuery.Text += FormMain.Query[Convert.ToInt32(TextBoxQueryNumber.Text) - 1];
+                RichTextBoxQuery.Text += FormMain.QueryList[Convert.ToInt32(TextBoxQueryNumber.Text) - 1];
             }
         }
 

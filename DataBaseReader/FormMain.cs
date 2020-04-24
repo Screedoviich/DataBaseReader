@@ -12,11 +12,11 @@ namespace DataBaseReader
     public partial class FormMain : Form
     {
         //Лист, содержащий запросы
-        public static List<string> Query = new List<string>();
+        public static List<string> QueryList = new List<string>();
         //Путь к базе данных (полный)
         public static string DataBasePath = default;
         //Подключение к базе данных
-        public static OleDbConnection dataBase;
+        public static OleDbConnection DataBaseConnection;
         //Количество столбцов в полученном запросе
         public static int ColumnCount { get; set; }
         //Последний выполненный запрос
@@ -28,7 +28,7 @@ namespace DataBaseReader
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            //Запись всех файлов в директории
+            //Запись всех файлов в директории для автоматического считывания xml файлов
             string[] files = Directory.GetFiles(Application.StartupPath);
             foreach(string file in files)
             {
@@ -45,15 +45,16 @@ namespace DataBaseReader
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //Закрытие базы данных, если она открыта
-            if (dataBase != null)
+            //Закрыть базу данных при выходе из программы, если БД открыта
+            if (DataBaseConnection != null)
             {
-                dataBase.Close();
+                DataBaseConnection.Close();
             }
         }
 
         private void TextBoxQueryNumber_KeyPress(object sender, KeyPressEventArgs e)
         {
+            //Допустить устанавливать только целочисленные значения в TextBox
             char ch = e.KeyChar;
             if (!Char.IsDigit(ch) && ch != 8)
             {
@@ -63,14 +64,19 @@ namespace DataBaseReader
 
         private void ButtonDoQuery_Click(object sender, EventArgs e)
         {
+            //Попытаться выполнить запрос, в противном случае вызывать окно с ошибкой
             try
             {
                 DataGridView.Rows.Clear();
-                if (CheckerNumberQuery(TextBoxQueryNumber.Text, Query.Count))
+                //Проверить на существующие значения TextBox
+                if (CheckerNumberQuery(TextBoxQueryNumber.Text, QueryList.Count))
                 {
-                    CreateDataBaseInfo(Query[Convert.ToInt32(TextBoxQueryNumber.Text) - 1], dataBase);
-                    InputDataBase(Query[Convert.ToInt32(TextBoxQueryNumber.Text) - 1], dataBase);
-                    LastQuery = Query[Convert.ToInt32(TextBoxQueryNumber.Text) - 1];
+                    //Отобразить столбцы в DataGridView по текущему запросу
+                    SetAllColumns(QueryList[Convert.ToInt32(TextBoxQueryNumber.Text) - 1], DataBaseConnection);
+                    //Отобразить заполненные ячейки в DataGridView по текущему запросу
+                    SetAllRows(QueryList[Convert.ToInt32(TextBoxQueryNumber.Text) - 1], DataBaseConnection);
+                    //Сохранить последний выполненный запрос в свойство
+                    LastQuery = QueryList[Convert.ToInt32(TextBoxQueryNumber.Text) - 1];
                 }
             }
             catch
@@ -81,9 +87,18 @@ namespace DataBaseReader
 
         private void ButtonInsertUpdateDelete_Click(object sender, EventArgs e)
         {
-            if (CheckerNumberQuery(TextBoxQueryNumber.Text, Query.Count))
+            //Проверить на существующие значения TextBox
+            try
             {
-                new OleDbCommand(Query[Convert.ToInt32(TextBoxQueryNumber.Text) - 1], dataBase).ExecuteNonQuery();
+                if (CheckerNumberQuery(TextBoxQueryNumber.Text, QueryList.Count))
+                {
+                    //Выполнить запрос на изменение элементов в базе данных
+                    new OleDbCommand(QueryList[Convert.ToInt32(TextBoxQueryNumber.Text) - 1], DataBaseConnection).ExecuteNonQuery();
+                }
+            }
+            catch
+            {
+                MessageBox.Show("В запросе обнаружена ошибка.\nЛибо не открыта БД.", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -93,16 +108,17 @@ namespace DataBaseReader
             {
                 try
                 {
+                    //Выполнять обычный запрос на получение, если в запросе содержится SELECT
                     if (RichTextBoxFastQuery.Text.Contains("SELECT"))
                     {
                         DataGridView.Rows.Clear();
-                        CreateDataBaseInfo(RichTextBoxFastQuery.Text, dataBase);
-                        InputDataBase(RichTextBoxFastQuery.Text, dataBase);
+                        SetAllColumns(RichTextBoxFastQuery.Text, DataBaseConnection);
+                        SetAllRows(RichTextBoxFastQuery.Text, DataBaseConnection);
                         LastQuery = RichTextBoxFastQuery.Text;
                     }
                     else
                     {
-                        new OleDbCommand(RichTextBoxFastQuery.Text, dataBase).ExecuteNonQuery();
+                        new OleDbCommand(RichTextBoxFastQuery.Text, DataBaseConnection).ExecuteNonQuery();
                     }
                 }
                 catch
@@ -118,6 +134,7 @@ namespace DataBaseReader
 
         private void CheckBoxAllowEdit_CheckedChanged(object sender, EventArgs e)
         {
+            //Переключать возможность изменения вручную через CheckBox
             if (CheckBoxAllowEdit.Checked == false)
             {
                 DataGridView.ReadOnly = true;
@@ -131,18 +148,26 @@ namespace DataBaseReader
 
         private void ButtonUpdateDb_Click(object sender, EventArgs e)
         {
-            try
+            if (CheckBoxAllowEdit.Checked)
             {
-                var queryList = GetUpdateQuery(LastQuery, dataBase);
-                for (int i = 0; i < queryList.Count; i++)
+                try
                 {
-                    new OleDbCommand(queryList[i], dataBase).ExecuteNonQuery();
+                    //Получение всех запросов для изменения
+                    var queryList = GetUpdateQuery(LastQuery, DataBaseConnection);
+                    for (int i = 0; i < queryList.Count; i++)
+                    {
+                        new OleDbCommand(queryList[i], DataBaseConnection).ExecuteNonQuery();
+                    }
+                    MessageBox.Show("Изменено успешно!", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                 }
-                MessageBox.Show("Изменено успешно!", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                catch
+                {
+                    MessageBox.Show("Изменение невозможно!\nПожалуйста проверьте введённые данные и используйте в запросе только одну таблицу.", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
             }
-            catch
+            else
             {
-                MessageBox.Show("Изменение невозможно!\nПожалуйста проверьте введённые данные и используйте в запросе только одну таблицу.", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Вы не разрешили редактирование", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -150,7 +175,8 @@ namespace DataBaseReader
         {
             try
             {
-                if (GetTableName(LastQuery, GetAllTableName(dataBase)).Count < 2)
+                //Выполнять добавление только в случае использования одной таблицы
+                if (GetTableName(LastQuery, GetAllTableName(DataBaseConnection)).Count < 2)
                 {
                     var formAdd = new FormAddDel(false, null)
                     {
@@ -173,7 +199,8 @@ namespace DataBaseReader
         {
             try
             {
-                if (GetTableName(LastQuery, GetAllTableName(dataBase)).Count < 2)
+                //Выполнять удаление только в случае использования одной таблицы
+                if (GetTableName(LastQuery, GetAllTableName(DataBaseConnection)).Count < 2)
                 {
                     var rowDel = new List<string>();
                     for (int i = 0; i < DataGridView.ColumnCount; i++)
@@ -195,7 +222,6 @@ namespace DataBaseReader
             {
                 MessageBox.Show("Запрос не введён", "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void ButtonRefresh_Click(object sender, EventArgs e)
@@ -223,6 +249,16 @@ namespace DataBaseReader
             Application.Exit();
         }
 
+        private void MenuStripAboutProgram_Click(object sender, EventArgs e)
+        {
+            new FormAboutProgram().Show();
+        }
+
+        private void MenuStripDescription_Click(object sender, EventArgs e)
+        {
+            new FormDescription().Show();
+        }
+
         /// <summary>
         /// Установка запросов из XML файла в лист.
         /// </summary>
@@ -233,26 +269,31 @@ namespace DataBaseReader
             string queryText = string.Empty;
             while (reader.Read())
             {
+                //Получение типа из XML файла
                 switch (reader.NodeType)
                 {
+                    //Если встречается обычный текст
                     case XmlNodeType.Text:
+                    {
+                        //Пропускать строку после каждой строчки, если запрос многострочный
+                        if (queryText != string.Empty)
                         {
-                            if (queryText != string.Empty)
-                            {
-                                queryText += "\n";
-                            }
-                            queryText += reader.Value;
-                            break;
+                            queryText += "\n";
                         }
+                        queryText += reader.Value;
+                        break;
+                    }
+                    //Если встречается закрывающий тег </...>
                     case XmlNodeType.EndElement:
+                    {
+                        //Добавлять запрос в лист
+                        if (queryText != string.Empty)
                         {
-                            if (queryText != string.Empty)
-                            {
-                                Query.Add(queryText);
-                            }
-                            queryText = string.Empty;
-                            break;
+                            QueryList.Add(queryText);
                         }
+                        queryText = string.Empty;
+                        break;
+                    }
                 }
             }
         }
@@ -262,7 +303,7 @@ namespace DataBaseReader
         /// </summary>
         /// <param name="query">Запрос.</param>
         /// <param name="connection">Подключение к базе данных.</param>
-        private void CreateDataBaseInfo(string query, OleDbConnection connection)
+        private void SetAllColumns(string query, OleDbConnection connection)
         {
             //Выполнение запроса и установка в переменную
             var adapter = new OleDbDataAdapter(query, connection);
@@ -280,24 +321,30 @@ namespace DataBaseReader
         }
 
         /// <summary>
-        /// Установка всех данных по текущему запросу из базы данных в DataGridView.
+        /// Установка всех строк по текущему запросу из базы данных в DataGridView.
         /// </summary>
         /// <param name="query">Запрос.</param>
         /// <param name="connection">Подключение к базе данных.</param>
-        private void InputDataBase(string query, OleDbConnection connection)
+        private void SetAllRows(string query, OleDbConnection connection)
         {
+            //Запись команды из базы данных
             var command = new OleDbCommand(query, connection);
+            //Построение переменной для чтения
             var reader = command.ExecuteReader();
+            //Лист массивов для работы с каждым элементом
             var data = new List<string[]>();
             while (reader.Read())
             {
+                //Инициализация строки в зависимости от количества столбцов 
                 data.Add(new string[ColumnCount]);
                 for (int i = 0; i < ColumnCount; i++)
                 {
+                    //Заполнение последней иницилазированной строки из базы данных
                     data[data.Count - 1][i] = reader[i].ToString();
                 }
             }
             reader.Close();
+            //Установка всех строк в DataGridView
             foreach (string[] e in data)
             {
                 DataGridView.Rows.Add(e);
@@ -305,10 +352,10 @@ namespace DataBaseReader
         }
 
         /// <summary>
-        /// Проверка строки для ввода запроса на несуществующие или пустые значения.
+        /// Проверка строки для ввода номера запроса на несуществующие или пустые значения.
         /// </summary>
         /// <param name="queryNumber">Номер запроса.</param>
-        /// <param name="count">Количество запросов</param>
+        /// <param name="count">Количество запросов.</param>
         /// <returns>Существование запроса.</returns>
         public static bool CheckerNumberQuery(string queryNumber, int count)
         {
@@ -339,6 +386,7 @@ namespace DataBaseReader
             var table = connection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });
             for (int i = 0; i < table.Rows.Count; i++)
             {
+                //Добавить в лист только элементы столбца TABLE_NAME
                 names.Add(table.Rows[i].Field<string>("TABLE_NAME"));
             }
             return names;
@@ -371,7 +419,7 @@ namespace DataBaseReader
         /// <returns>Список запросов.</returns>
         List<string> GetUpdateQuery(string query, OleDbConnection connection)
         {
-            var queryList = GetTableName(query, GetAllTableName(dataBase));
+            var queryList = GetTableName(query, GetAllTableName(DataBaseConnection));
             if (queryList.Count < 2)
             {
                 //Хранимые данные запроса
@@ -428,16 +476,6 @@ namespace DataBaseReader
             stringBuild.Append(where2);
             stringBuild.Append(";");
             return stringBuild.ToString();
-        }
-
-        private void MenuStripAboutProgram_Click(object sender, EventArgs e)
-        {
-            new FormAboutProgram().Show();
-        }
-
-        private void MenuStripDescription_Click(object sender, EventArgs e)
-        {
-            new FormDescription().Show();
         }
     }
 }

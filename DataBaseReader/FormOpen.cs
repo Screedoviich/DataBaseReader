@@ -18,15 +18,16 @@ namespace DataBaseReader
 
         private void ButtonInput_Click(object sender, EventArgs e)
         {
-            if (FormMain.dataBase != null)
+            if (FormMain.DataBaseConnection != null)
             {
-                FormMain.dataBase.Close();
+                FormMain.DataBaseConnection.Close();
             }
-            FormMain.dataBase = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + TextBoxPath.Text);
+            FormMain.DataBaseConnection = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + TextBoxPath.Text);
             try
             {
-                FormMain.dataBase.Open();
+                FormMain.DataBaseConnection.Open();
                 MessageBox.Show("База данных успешно открыта!", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+                Close();
             }
             catch
             {

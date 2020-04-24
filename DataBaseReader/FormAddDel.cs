@@ -20,7 +20,7 @@ namespace DataBaseReader
 
         private void FormAddDel_Load(object sender, EventArgs e)
         {
-            var adapter = new OleDbDataAdapter(FormMain.LastQuery, FormMain.dataBase);
+            var adapter = new OleDbDataAdapter(FormMain.LastQuery, FormMain.DataBaseConnection);
             var dataTable = new DataTable();
             adapter.Fill(dataTable);
             DataGridViewEdit.ColumnCount = dataTable.Columns.Count;
@@ -32,7 +32,12 @@ namespace DataBaseReader
             DataGridViewEdit.ReadOnly = readOnly;
             if (readOnly)
             {
+                ButtonPerform.Text = "Удалить";
                 AddValueInDataGridView();
+            }
+            else
+            {
+                ButtonPerform.Text = "Добавить";
             }
         }
 
@@ -42,13 +47,13 @@ namespace DataBaseReader
             {
                 if (!readOnly)
                 {
-                    new OleDbCommand(CreateInsertQuery(FormMain.LastQuery, FormMain.dataBase), FormMain.dataBase).ExecuteNonQuery();
+                    new OleDbCommand(CreateInsertQuery(FormMain.LastQuery, FormMain.DataBaseConnection), FormMain.DataBaseConnection).ExecuteNonQuery();
                     MessageBox.Show("Добавлено успешно!", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     Close();
                 }
                 else
                 {
-                    new OleDbCommand(CreateDeleteQuery(FormMain.LastQuery, FormMain.dataBase), FormMain.dataBase).ExecuteNonQuery();
+                    new OleDbCommand(CreateDeleteQuery(FormMain.LastQuery, FormMain.DataBaseConnection), FormMain.DataBaseConnection).ExecuteNonQuery();
                     MessageBox.Show("Удалено успешно!", "Выполнено", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     Close();
                 }

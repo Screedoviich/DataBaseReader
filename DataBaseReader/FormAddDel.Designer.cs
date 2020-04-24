@@ -39,6 +39,7 @@
             // 
             this.DataGridViewEdit.AllowUserToAddRows = false;
             this.DataGridViewEdit.AllowUserToDeleteRows = false;
+            this.DataGridViewEdit.AllowUserToResizeRows = false;
             this.DataGridViewEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DataGridViewEdit.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
